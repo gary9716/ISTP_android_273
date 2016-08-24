@@ -16,7 +16,6 @@ public class OwnedPokemonDataManager {
 
     public OwnedPokemonDataManager(Context context) {
         mContext = context;
-
     }
 
     public void loadListViewData() {
@@ -46,7 +45,6 @@ public class OwnedPokemonDataManager {
     static final int skillStartIndex = 8;
 
     private OwnedPokemonInfo constructPokemonInfo(String[] dataFields) {
-
         OwnedPokemonInfo ownedPokemonInfo = new OwnedPokemonInfo();
         ownedPokemonInfo.pokemonId = Integer.valueOf(dataFields[0]);
         ownedPokemonInfo.name = dataFields[2];
@@ -66,5 +64,5 @@ public class OwnedPokemonDataManager {
     public ArrayList<OwnedPokemonInfo> getOwnedPokemonInfos() {
         return ownedPokemonInfos;
     }
-    
+
 }
