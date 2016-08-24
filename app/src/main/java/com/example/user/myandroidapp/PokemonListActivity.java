@@ -35,7 +35,7 @@ public class PokemonListActivity extends AppCompatActivity {
                 pokemonNames);
 
         listView.setAdapter(arrayAdapter);
-        
+
     }
 
 }
