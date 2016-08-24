@@ -1,10 +1,12 @@
 package com.example.user.myandroidapp.model;
 
 import android.content.Context;
+import android.util.Log;
 
 import java.io.BufferedReader;
 import java.io.InputStreamReader;
 import java.util.ArrayList;
+import java.util.Arrays;
 
 /**
  * Created by user on 2016/8/24.
@@ -57,6 +59,15 @@ public class OwnedPokemonDataManager {
         for(int i = skillStartIndex;i < dataFields.length;i++) {
             ownedPokemonInfo.skills[i - skillStartIndex] = dataFields[i];
         }
+
+        Log.d("testDM", ownedPokemonInfo.pokemonId + "," +
+                ownedPokemonInfo.name + "," +
+                ownedPokemonInfo.level + "," +
+                ownedPokemonInfo.type_1 + "," +
+                ownedPokemonInfo.type_2 + "," +
+                ownedPokemonInfo.currentHP + "," +
+                ownedPokemonInfo.maxHP + "," +
+                Arrays.toString(ownedPokemonInfo.skills));
 
         return ownedPokemonInfo;
     }
