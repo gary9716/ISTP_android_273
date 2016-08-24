@@ -43,9 +43,28 @@ public class OwnedPokemonDataManager {
 
     }
 
+    static final int skillStartIndex = 8;
+
     private OwnedPokemonInfo constructPokemonInfo(String[] dataFields) {
-        
-        return null;
+
+        OwnedPokemonInfo ownedPokemonInfo = new OwnedPokemonInfo();
+        ownedPokemonInfo.pokemonId = Integer.valueOf(dataFields[0]);
+        ownedPokemonInfo.name = dataFields[2];
+        ownedPokemonInfo.level = Integer.valueOf(dataFields[3]);
+        ownedPokemonInfo.currentHP = Integer.valueOf(dataFields[4]);
+        ownedPokemonInfo.maxHP = Integer.valueOf(dataFields[5]);
+        ownedPokemonInfo.type_1 = Integer.valueOf(dataFields[6]);
+        ownedPokemonInfo.type_2 = Integer.valueOf(dataFields[7]);
+
+        for(int i = skillStartIndex;i < dataFields.length;i++) {
+            ownedPokemonInfo.skills[i - skillStartIndex] = dataFields[i];
+        }
+
+        return ownedPokemonInfo;
     }
 
+    public ArrayList<OwnedPokemonInfo> getOwnedPokemonInfos() {
+        return ownedPokemonInfos;
+    }
+    
 }
