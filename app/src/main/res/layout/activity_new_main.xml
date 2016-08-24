@@ -48,7 +48,8 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="小火龍"
-                android:id="@+id/radioButton" />
+                android:id="@+id/radioButton"
+                android:checked="true" />
 
             <RadioButton
                 android:layout_width="wrap_content"
