@@ -1,21 +1,27 @@
 package com.example.user.myandroidapp;
 
+import android.content.Context;
+import android.hardware.input.InputManager;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.KeyEvent;
 import android.view.View;
+import android.view.inputmethod.EditorInfo;
+import android.view.inputmethod.InputMethodManager;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.RadioButton;
 import android.widget.RadioGroup;
 import android.widget.TextView;
 
-public class MainActivity extends AppCompatActivity implements View.OnClickListener {
+public class MainActivity extends AppCompatActivity implements View.OnClickListener, EditText.OnEditorActionListener {
 
     static final String[] pokemonNames = {"小火龍","傑尼龜","妙蛙種子"};
     TextView infoText;
     EditText nameEditText;
     RadioGroup optionsGroup;
+    Button confirmBtn;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -25,8 +31,11 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         //find UIs by their ids
         infoText = (TextView)findViewById(R.id.infoText);
         nameEditText = (EditText)findViewById(R.id.nameEditText);
+        nameEditText.setOnEditorActionListener(this);
+        nameEditText.setImeOptions(EditorInfo.IME_ACTION_DONE);
+
         optionsGroup = (RadioGroup)findViewById(R.id.optionsGroup);
-        Button confirmBtn = (Button)findViewById(R.id.confirmButton);
+        confirmBtn = (Button)findViewById(R.id.confirmButton);
         confirmBtn.setOnClickListener(MainActivity.this);
 
     }
@@ -41,7 +50,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
             int selectedRadioButtonId = optionsGroup.getCheckedRadioButtonId();
             View selectedRadioButtonView = optionsGroup.findViewById(selectedRadioButtonId);
-            int selectedIndex = optionsGroup.indexOfChild(selectedRadioButtonView);
+//            int selectedIndex = optionsGroup.indexOfChild(selectedRadioButtonView);
 
             RadioButton selectedRadioButton = (RadioButton)selectedRadioButtonView;
             String radioBtnText = selectedRadioButton.getText().toString();
@@ -54,5 +63,19 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
             infoText.setText(welcomeMessage);
         }
+    }
+
+    @Override
+    public boolean onEditorAction(TextView v, int actionId, KeyEvent event) {
+        if(actionId == EditorInfo.IME_ACTION_DONE) {
+            //dismiss virtual keyboard
+            InputMethodManager inm = (InputMethodManager)getSystemService(Context.INPUT_METHOD_SERVICE);
+            inm.hideSoftInputFromWindow(v.getWindowToken(), 0);
+
+            //simulate button clicked
+            confirmBtn.performClick();
+            return true;
+        }
+        return false;
     }
 }
