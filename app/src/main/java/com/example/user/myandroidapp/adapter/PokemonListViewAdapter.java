@@ -53,7 +53,7 @@ public class PokemonListViewAdapter extends ArrayAdapter<OwnedPokemonInfo> {
         return rowView;
     }
 
-    public class ViewHolder {
+    public class ViewHolder implements View.OnClickListener {
 
         View mRowView;
         ImageView mAppearanceImg;
@@ -68,6 +68,8 @@ public class PokemonListViewAdapter extends ArrayAdapter<OwnedPokemonInfo> {
         public ViewHolder(View rowView) {
             mRowView = rowView;
             mAppearanceImg = (ImageView)rowView.findViewById(R.id.appearanceImg);
+            mAppearanceImg.setOnClickListener(this);
+
             mNameText = (TextView)rowView.findViewById(R.id.nameText);
             mLevelText = (TextView)rowView.findViewById(R.id.levelText);
             mCurrentHP = (TextView)rowView.findViewById(R.id.currentHP);
@@ -78,6 +80,8 @@ public class PokemonListViewAdapter extends ArrayAdapter<OwnedPokemonInfo> {
         //bind mRowView with data
         public void setView(OwnedPokemonInfo data) {
             mData = data;
+
+            mRowView.setActivated(data.isSelected);
 
             mNameText.setText(data.name);
             mLevelText.setText(String.valueOf(data.level));
@@ -96,7 +100,20 @@ public class PokemonListViewAdapter extends ArrayAdapter<OwnedPokemonInfo> {
 
         }
 
+        public void setSelected() {
+            mData.isSelected = !mData.isSelected;
+            mRowView.setActivated(mData.isSelected);
 
+        }
+
+        @Override
+        public void onClick(View v) {
+            int viewId = v.getId();
+            if(viewId == R.id.appearanceImg) {
+                setSelected();
+            }
+
+        }
     }
 
 }
