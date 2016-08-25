@@ -11,6 +11,7 @@ import android.widget.TextView;
 
 import com.example.user.myandroidapp.R;
 import com.example.user.myandroidapp.model.OwnedPokemonInfo;
+import com.nostra13.universalimageloader.core.ImageLoader;
 
 import java.util.List;
 
@@ -85,7 +86,13 @@ public class PokemonListViewAdapter extends ArrayAdapter<OwnedPokemonInfo> {
             int progress = (int)((((float)data.currentHP) / data.maxHP) * 100);
             mHPBar.setProgress(progress);
 
-            //TODO: load image through library from Internet
+            int pokemonId = data.pokemonId;
+            String imgUrl = String.format(
+                    "http://www.csie.ntu.edu.tw/~r03944003/listImg/%d.png",
+                    pokemonId
+            );
+
+            ImageLoader.getInstance().displayImage(imgUrl, mAppearanceImg);
 
         }
 
