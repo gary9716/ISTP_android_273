@@ -42,6 +42,8 @@ public class PokemonListViewAdapter extends ArrayAdapter<OwnedPokemonInfo> {
         TextView mMaxHP;
         ProgressBar mHPBar;
 
+        OwnedPokemonInfo mData;
+
         public ViewHolder(View rowView) {
             mRowView = rowView;
             mAppearanceImg = (ImageView)rowView.findViewById(R.id.appearanceImg);
@@ -52,7 +54,19 @@ public class PokemonListViewAdapter extends ArrayAdapter<OwnedPokemonInfo> {
             mHPBar = (ProgressBar)rowView.findViewById(R.id.hpBar);
         }
 
-        
+        //bind mRowView with data
+        public void setView(OwnedPokemonInfo data) {
+            mData = data;
+
+            mNameText.setText(data.name);
+            mLevelText.setText(String.valueOf(data.level));
+            mCurrentHP.setText(String.valueOf(data.currentHP));
+            mMaxHP.setText(String.valueOf(data.maxHP));
+            int progress = (int)((((float)data.currentHP) / data.maxHP) * 100);
+            mHPBar.setProgress(progress);
+            
+            //TODO: load image through library from Internet
+        }
 
 
     }
