@@ -12,4 +12,44 @@
         android:layout_margin="25dp"
         android:adjustViewBounds="true"
         android:scaleType="fitCenter"/>
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="name"
+        android:id="@+id/nameText"
+        android:layout_alignTop="@+id/appearanceImg"
+        android:layout_toRightOf="@+id/appearanceImg" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="lv."
+        android:id="@+id/textView"
+        android:layout_alignBottom="@+id/appearanceImg"
+        android:layout_toRightOf="@+id/appearanceImg"
+        android:layout_toEndOf="@+id/appearanceImg" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="-1"
+        android:id="@+id/levelText"
+        android:layout_alignBottom="@+id/textView"
+        android:layout_toRightOf="@+id/textView"
+        android:layout_toEndOf="@+id/textView"
+        android:layout_marginLeft="10dp" />
+
+    <ProgressBar
+        style="@android:style/Widget.Material.Light.ProgressBar.Horizontal"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/progressBar"
+        android:layout_alignTop="@+id/nameText"
+        android:layout_toRightOf="@+id/levelText"
+        android:layout_toEndOf="@+id/levelText"
+        android:layout_marginLeft="28dp"
+        android:layout_marginStart="28dp"
+        android:minWidth="120dp"
+        android:progress="50" />
 </RelativeLayout>
