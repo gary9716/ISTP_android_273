@@ -39,15 +39,15 @@ public class PokemonListViewAdapter extends ArrayAdapter<OwnedPokemonInfo> {
         ViewHolder viewHolder = null;
 
         if(rowView == null) {
-            rowView = mInflater.inflate(mRowLayoutId, null);
-            viewHolder = new ViewHolder(rowView);
+            rowView = mInflater.inflate(mRowLayoutId, null); //generate view object based on mRowLayoutId
+            viewHolder = new ViewHolder(rowView); //construct a viewHolder object and find sub UI component in rowView
             rowView.setTag(viewHolder); //cache viewHolder
         }
         else {
-            viewHolder = (ViewHolder)rowView.getTag();
+            viewHolder = (ViewHolder)rowView.getTag(); //retrieve previous cached viewHolder object
         }
 
-        viewHolder.setView(data);
+        viewHolder.setView(data); //set data onto this rowView through viewHolder object
 
         return rowView;
     }
