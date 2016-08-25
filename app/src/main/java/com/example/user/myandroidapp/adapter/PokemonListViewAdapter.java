@@ -86,6 +86,7 @@ public class PokemonListViewAdapter extends ArrayAdapter<OwnedPokemonInfo> {
             mHPBar.setProgress(progress);
 
             //TODO: load image through library from Internet
+
         }
 
 
