@@ -3,6 +3,7 @@ package com.example.user.myandroidapp.adapter;
 import android.content.Context;
 import android.view.LayoutInflater;
 import android.view.View;
+import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.ImageView;
 import android.widget.ProgressBar;
@@ -31,6 +32,25 @@ public class PokemonListViewAdapter extends ArrayAdapter<OwnedPokemonInfo> {
 
     }
 
+    @Override
+    public View getView(int position, View rowView, ViewGroup parent) {
+
+        OwnedPokemonInfo data = getItem(position);
+        ViewHolder viewHolder = null;
+
+        if(rowView == null) {
+            rowView = mInflater.inflate(mRowLayoutId, null);
+            viewHolder = new ViewHolder(rowView);
+            rowView.setTag(viewHolder); //cache viewHolder
+        }
+        else {
+            viewHolder = (ViewHolder)rowView.getTag();
+        }
+
+        viewHolder.setView(data);
+
+        return rowView;
+    }
 
     public class ViewHolder {
 
@@ -64,7 +84,7 @@ public class PokemonListViewAdapter extends ArrayAdapter<OwnedPokemonInfo> {
             mMaxHP.setText(String.valueOf(data.maxHP));
             int progress = (int)((((float)data.currentHP) / data.maxHP) * 100);
             mHPBar.setProgress(progress);
-            
+
             //TODO: load image through library from Internet
         }
 
