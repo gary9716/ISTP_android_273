@@ -9,16 +9,22 @@ import android.widget.ImageView;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 
+import com.example.user.myandroidapp.OnPokemonSelectedChangeListener;
 import com.example.user.myandroidapp.R;
 import com.example.user.myandroidapp.model.OwnedPokemonInfo;
 import com.nostra13.universalimageloader.core.ImageLoader;
 
+import java.util.ArrayList;
 import java.util.List;
+
+
 
 /**
  * Created by user on 2016/8/25.
  */
-public class PokemonListViewAdapter extends ArrayAdapter<OwnedPokemonInfo> {
+public class PokemonListViewAdapter extends ArrayAdapter<OwnedPokemonInfo> implements OnPokemonSelectedChangeListener {
+
+    ArrayList<OwnedPokemonInfo> selectedPokemons = new ArrayList<>();
 
     LayoutInflater mInflater;
     int mRowLayoutId;
@@ -30,6 +36,7 @@ public class PokemonListViewAdapter extends ArrayAdapter<OwnedPokemonInfo> {
 
         mRowLayoutId = resource;
         mInflater = LayoutInflater.from(context);
+        ViewHolder.mAdapter = this;
 
     }
 
@@ -53,7 +60,17 @@ public class PokemonListViewAdapter extends ArrayAdapter<OwnedPokemonInfo> {
         return rowView;
     }
 
-    public class ViewHolder implements View.OnClickListener {
+    @Override
+    public void onSelectedChange(OwnedPokemonInfo ownedPokemonInfo) {
+        if(ownedPokemonInfo.isSelected) {
+            selectedPokemons.add(ownedPokemonInfo);
+        }
+        else {
+            selectedPokemons.remove(ownedPokemonInfo);
+        }
+    }
+
+    public static class ViewHolder implements View.OnClickListener {
 
         View mRowView;
         ImageView mAppearanceImg;
@@ -64,6 +81,8 @@ public class PokemonListViewAdapter extends ArrayAdapter<OwnedPokemonInfo> {
         ProgressBar mHPBar;
 
         OwnedPokemonInfo mData;
+
+        public static PokemonListViewAdapter mAdapter;
 
         public ViewHolder(View rowView) {
             mRowView = rowView;
@@ -103,7 +122,7 @@ public class PokemonListViewAdapter extends ArrayAdapter<OwnedPokemonInfo> {
         public void setSelected() {
             mData.isSelected = !mData.isSelected;
             mRowView.setActivated(mData.isSelected);
-
+            mAdapter.onSelectedChange(mData);
         }
 
         @Override
