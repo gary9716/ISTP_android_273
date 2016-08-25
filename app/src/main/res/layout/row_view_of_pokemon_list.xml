@@ -41,7 +41,7 @@
         android:layout_marginLeft="10dp" />
 
     <ProgressBar
-        style="@android:style/Widget.Material.Light.ProgressBar.Horizontal"
+        style="@android:style/Widget.DeviceDefault.Light.ProgressBar.Horizontal"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:id="@+id/progressBar"
@@ -52,4 +52,33 @@
         android:layout_marginStart="28dp"
         android:minWidth="120dp"
         android:progress="50" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="170"
+        android:id="@+id/currentHP"
+        android:layout_alignTop="@+id/levelText"
+        android:layout_alignLeft="@+id/progressBar"
+        android:layout_alignStart="@+id/progressBar" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="/"
+        android:id="@+id/textView2"
+        android:layout_alignTop="@+id/currentHP"
+        android:layout_toRightOf="@+id/currentHP"
+        android:layout_toEndOf="@+id/currentHP"
+        android:layout_marginLeft="5dp"
+        android:layout_marginRight="5dp" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="340"
+        android:id="@+id/maxHP"
+        android:layout_alignTop="@+id/textView2"
+        android:layout_toRightOf="@+id/textView2"
+        android:layout_toEndOf="@+id/textView2" />
 </RelativeLayout>
