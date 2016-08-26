@@ -44,5 +44,99 @@
             android:layout_toEndOf="@+id/textView4"
             android:layout_alignBottom="@+id/nameText"
             android:layout_marginLeft="2dp" />
+
+        <TextView
+            android:layout_width="@dimen/detail_view_field_width"
+            android:layout_height="wrap_content"
+            android:text="屬性"
+            android:id="@+id/textView3"
+            android:layout_below="@+id/nameText"
+            android:layout_toLeftOf="@+id/nameText"
+            android:layout_toStartOf="@+id/nameText"
+            android:layout_marginTop="@dimen/detail_view_field_top_margin"
+            android:gravity="center_horizontal"
+            android:layout_marginRight="20dp" />
+
+        <TextView
+            android:layout_width="@dimen/detail_view_field_width"
+            android:layout_height="wrap_content"
+            android:text="生命值"
+            android:id="@+id/textView5"
+            android:layout_marginTop="@dimen/detail_view_field_top_margin"
+            android:gravity="center_horizontal"
+            android:layout_below="@+id/textView3"
+            android:layout_alignRight="@+id/textView3"
+            android:layout_alignEnd="@+id/textView3" />
+
+        <TextView
+            android:layout_width="@dimen/detail_view_field_width"
+            android:layout_height="wrap_content"
+            android:text="技能"
+            android:id="@+id/textView6"
+            android:layout_marginTop="@dimen/detail_view_field_top_margin"
+            android:gravity="center_horizontal"
+            android:layout_below="@+id/textView5"
+            android:layout_alignRight="@+id/textView5"
+            android:layout_alignEnd="@+id/textView5" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="水系"
+            android:id="@+id/type1Text"
+            android:layout_alignTop="@+id/textView3"
+            android:layout_toRightOf="@+id/textView3"
+            android:layout_toEndOf="@+id/textView3"
+            android:layout_marginLeft="10dp" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="飛行系"
+            android:id="@+id/type2Text"
+            android:layout_alignTop="@+id/type1Text"
+            android:layout_toRightOf="@+id/nameText"
+            android:layout_toEndOf="@+id/nameText"
+            android:layout_marginLeft="20dp" />
+
+        <ProgressBar
+            style="@android:style/Widget.DeviceDefault.Light.ProgressBar.Horizontal"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/hpBar"
+            android:layout_alignTop="@+id/textView5"
+            android:layout_alignLeft="@+id/type1Text"
+            android:layout_alignStart="@+id/type1Text"
+            android:minWidth="100dp"
+            android:progress="50" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="170"
+            android:id="@+id/currentHP"
+            android:layout_below="@+id/hpBar"
+            android:layout_alignLeft="@+id/hpBar"
+            android:layout_alignStart="@+id/hpBar" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="/"
+            android:id="@+id/textView10"
+            android:layout_below="@+id/hpBar"
+            android:layout_toRightOf="@+id/currentHP"
+            android:layout_toEndOf="@+id/currentHP"
+            android:layout_marginLeft="5dp"
+            android:layout_marginRight="5dp" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="340"
+            android:id="@+id/maxHP"
+            android:layout_alignTop="@+id/textView10"
+            android:layout_toRightOf="@+id/textView10"
+            android:layout_toEndOf="@+id/textView10" />
     </RelativeLayout>
 </LinearLayout>
