@@ -3,6 +3,7 @@ package com.example.user.myandroidapp;
 import android.content.Context;
 import android.content.Intent;
 import android.hardware.input.InputManager;
+import android.os.Handler;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
@@ -23,11 +24,14 @@ public class MainActivity extends CustomizedActivity implements View.OnClickList
     EditText nameEditText;
     RadioGroup optionsGroup;
     Button confirmBtn;
+    Handler handler;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_new_main);
+
+        handler = new Handler(this.getMainLooper());
 
         activityName = this.getClass().getSimpleName();
 
@@ -42,6 +46,13 @@ public class MainActivity extends CustomizedActivity implements View.OnClickList
         confirmBtn.setOnClickListener(MainActivity.this);
 
     }
+
+    Runnable jumpToNewActivityTask = new Runnable() {
+        @Override
+        public void run() {
+            jumpToNewActivity();
+        }
+    };
 
     @Override
     public void onClick(View v) {
@@ -66,7 +77,7 @@ public class MainActivity extends CustomizedActivity implements View.OnClickList
 
             infoText.setText(welcomeMessage);
 
-            jumpToNewActivity();
+            handler.postDelayed(jumpToNewActivityTask, 3 * 1000); //delay 3 seconds
         }
     }
 
