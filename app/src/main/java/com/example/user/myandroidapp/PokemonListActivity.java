@@ -23,6 +23,8 @@ public class PokemonListActivity extends CustomizedActivity implements OnPokemon
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_pokemon_list);
 
+        activityName = this.getClass().getSimpleName();
+
         OwnedPokemonDataManager dataManager = new OwnedPokemonDataManager(this);
         dataManager.loadListViewData();
 

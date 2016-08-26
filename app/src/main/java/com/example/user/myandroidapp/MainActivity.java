@@ -1,6 +1,7 @@
 package com.example.user.myandroidapp;
 
 import android.content.Context;
+import android.content.Intent;
 import android.hardware.input.InputManager;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -15,7 +16,7 @@ import android.widget.RadioButton;
 import android.widget.RadioGroup;
 import android.widget.TextView;
 
-public class MainActivity extends AppCompatActivity implements View.OnClickListener, EditText.OnEditorActionListener {
+public class MainActivity extends CustomizedActivity implements View.OnClickListener, EditText.OnEditorActionListener {
 
     static final String[] pokemonNames = {"小火龍","傑尼龜","妙蛙種子"};
     TextView infoText;
@@ -27,6 +28,8 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_new_main);
+
+        activityName = this.getClass().getSimpleName();
 
         //find UIs by their ids
         infoText = (TextView)findViewById(R.id.infoText);
@@ -62,7 +65,17 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             );
 
             infoText.setText(welcomeMessage);
+
+            jumpToNewActivity();
         }
+    }
+
+    private void jumpToNewActivity() {
+
+        Intent intent = new Intent();
+        intent.setClass(MainActivity.this, PokemonListActivity.class);
+        startActivity(intent);
+
     }
 
     @Override
