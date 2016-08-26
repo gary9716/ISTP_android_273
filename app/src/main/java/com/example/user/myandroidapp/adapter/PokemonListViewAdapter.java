@@ -24,7 +24,7 @@ import java.util.List;
  */
 public class PokemonListViewAdapter extends ArrayAdapter<OwnedPokemonInfo> implements OnPokemonSelectedChangeListener {
 
-    ArrayList<OwnedPokemonInfo> selectedPokemons = new ArrayList<>();
+    public ArrayList<OwnedPokemonInfo> selectedPokemons = new ArrayList<>();
 
     LayoutInflater mInflater;
     int mRowLayoutId;

@@ -2,6 +2,8 @@ package com.example.user.myandroidapp;
 
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.view.Menu;
+import android.view.MenuItem;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
 
@@ -13,6 +15,9 @@ import java.util.ArrayList;
 
 public class PokemonListActivity extends AppCompatActivity {
 
+    PokemonListViewAdapter arrayAdapter;
+    ArrayList<OwnedPokemonInfo> ownedPokemonInfos;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -21,11 +26,10 @@ public class PokemonListActivity extends AppCompatActivity {
         OwnedPokemonDataManager dataManager = new OwnedPokemonDataManager(this);
         dataManager.loadListViewData();
 
-        ArrayList<OwnedPokemonInfo> ownedPokemonInfos =
-                dataManager.getOwnedPokemonInfos();
+        ownedPokemonInfos = dataManager.getOwnedPokemonInfos();
 
         ListView listView = (ListView)findViewById(R.id.listView);
-        ArrayAdapter arrayAdapter = new PokemonListViewAdapter(this,
+        arrayAdapter = new PokemonListViewAdapter(this,
                 R.layout.row_view_of_pokemon_list,
                 ownedPokemonInfos);
 
@@ -33,4 +37,29 @@ public class PokemonListActivity extends AppCompatActivity {
 
     }
 
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        if(arrayAdapter.selectedPokemons.isEmpty()) {
+            return false; //not showing anything on action bar
+        }
+        else {
+            getMenuInflater().inflate(R.menu.selected_pokemon_action_bar, menu);
+            return true; //show the menu items on action bar
+        }
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        int itemId = item.getItemId();
+        if(itemId == R.id.action_delete) {
+            for(OwnedPokemonInfo ownedPokemonInfo : arrayAdapter.selectedPokemons) {
+                ownedPokemonInfos.remove(ownedPokemonInfo);
+            }
+            arrayAdapter.notifyDataSetChanged();
+            return true;
+        }
+        else {
+            return super.onOptionsItemSelected(item);
+        }
+    }
 }
