@@ -138,5 +138,50 @@
             android:layout_alignTop="@+id/textView10"
             android:layout_toRightOf="@+id/textView10"
             android:layout_toEndOf="@+id/textView10" />
+
+        <LinearLayout
+            android:orientation="vertical"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignLeft="@+id/hpBar"
+            android:layout_alignTop="@+id/textView6"
+            android:id="@+id/linearLayout">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="破壞死光"
+                android:id="@+id/skill1Text" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="水炮"
+                android:id="@+id/skill3Text"
+                android:layout_marginTop="@dimen/detail_view_skill_top_margin" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:orientation="vertical"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignTop="@+id/linearLayout"
+            android:layout_toRightOf="@+id/linearLayout"
+            android:layout_toEndOf="@+id/linearLayout"
+            android:layout_marginLeft="20dp">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="龍之舞"
+                android:id="@+id/skill2Text" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="鋼鐵尾巴"
+                android:id="@+id/skill4Text"
+                android:layout_marginTop="@dimen/detail_view_skill_top_margin" />
+        </LinearLayout>
     </RelativeLayout>
 </LinearLayout>
