@@ -15,6 +15,8 @@ public class OwnedPokemonDataManager {
 
     Context mContext;
     ArrayList<OwnedPokemonInfo> ownedPokemonInfos = null;
+    static final int numInitPokemons = 3;
+    OwnedPokemonInfo[] initPokemonInfos = new OwnedPokemonInfo[numInitPokemons];
 
     public OwnedPokemonDataManager(Context context) {
         mContext = context;
@@ -28,6 +30,17 @@ public class OwnedPokemonDataManager {
         String[] dataFields = null;
 
         try {
+            reader = new BufferedReader(
+                    new InputStreamReader(mContext.getAssets().open("init_pokemon_data.csv"))
+            );
+
+            for(int i = 0;i< numInitPokemons;i++) {
+                dataFields = reader.readLine().split(",");
+                initPokemonInfos[i] = constructPokemonInfo(dataFields);
+            }
+
+            reader.close();
+
             reader = new BufferedReader(
                     new InputStreamReader(mContext.getAssets().open("pokemon_data.csv"))
             );
