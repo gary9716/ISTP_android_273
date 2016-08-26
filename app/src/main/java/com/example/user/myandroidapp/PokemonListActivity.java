@@ -56,7 +56,9 @@ public class PokemonListActivity extends AppCompatActivity implements OnPokemonS
             for(OwnedPokemonInfo ownedPokemonInfo : arrayAdapter.selectedPokemons) {
                 ownedPokemonInfos.remove(ownedPokemonInfo);
             }
+            arrayAdapter.selectedPokemons.clear();
             arrayAdapter.notifyDataSetChanged();
+            invalidateOptionsMenu();
             return true;
         }
         else {
