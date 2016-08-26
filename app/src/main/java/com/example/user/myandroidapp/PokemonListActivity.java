@@ -13,7 +13,7 @@ import com.example.user.myandroidapp.model.OwnedPokemonInfo;
 
 import java.util.ArrayList;
 
-public class PokemonListActivity extends AppCompatActivity implements OnPokemonSelectedChangeListener {
+public class PokemonListActivity extends CustomizedActivity implements OnPokemonSelectedChangeListener {
 
     PokemonListViewAdapter arrayAdapter;
     ArrayList<OwnedPokemonInfo> ownedPokemonInfos;
