@@ -6,6 +6,7 @@ package com.example.user.myandroidapp.model;
 public class OwnedPokemonInfo {
 
     public static final int maxNumSkills = 4;
+    public static String[] typeNames;
 
     public int pokemonId;
     public String name;

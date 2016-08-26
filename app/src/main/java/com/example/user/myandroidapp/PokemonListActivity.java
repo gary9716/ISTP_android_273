@@ -1,5 +1,6 @@
 package com.example.user.myandroidapp;
 
+import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.Menu;
@@ -29,6 +30,11 @@ public class PokemonListActivity extends CustomizedActivity implements OnPokemon
         dataManager.loadListViewData();
 
         ownedPokemonInfos = dataManager.getOwnedPokemonInfos();
+
+        OwnedPokemonInfo[] initPokemonInfos = dataManager.getInitPokemonInfos();
+        Intent srcIntent = getIntent();
+        int selectedIndex = srcIntent.getIntExtra(MainActivity.selectedPokemonIndexKey, 0);
+        ownedPokemonInfos.add(0, initPokemonInfos[selectedIndex]);
 
         ListView listView = (ListView)findViewById(R.id.listView);
         arrayAdapter = new PokemonListViewAdapter(this,

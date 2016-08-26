@@ -22,6 +22,19 @@ public class OwnedPokemonDataManager {
         mContext = context;
     }
 
+    public void loadPokemonTypes() {
+        try {
+            BufferedReader reader = new BufferedReader(
+                    new InputStreamReader(mContext.getAssets().open("pokemon_types.csv"))
+            );
+            OwnedPokemonInfo.typeNames = reader.readLine().split(",");
+            reader.close();
+        }
+        catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
     public void loadListViewData() {
         ownedPokemonInfos = new ArrayList<>();
 
@@ -88,5 +101,7 @@ public class OwnedPokemonDataManager {
     public ArrayList<OwnedPokemonInfo> getOwnedPokemonInfos() {
         return ownedPokemonInfos;
     }
-
+    public OwnedPokemonInfo[] getInitPokemonInfos() {
+        return initPokemonInfos;
+    }
 }

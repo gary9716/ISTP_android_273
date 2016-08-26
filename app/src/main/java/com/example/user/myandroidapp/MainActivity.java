@@ -19,6 +19,8 @@ import android.widget.TextView;
 
 public class MainActivity extends CustomizedActivity implements View.OnClickListener, EditText.OnEditorActionListener {
 
+    public static final String selectedPokemonIndexKey = "selectedPokemonIndexKey";
+
     static final String[] pokemonNames = {"小火龍","傑尼龜","妙蛙種子"};
     TextView infoText;
     EditText nameEditText;
@@ -81,10 +83,19 @@ public class MainActivity extends CustomizedActivity implements View.OnClickList
         }
     }
 
+    private int getSelectedPokemonIndex() {
+        int selectedRadioButtonId = optionsGroup.getCheckedRadioButtonId();
+        View selectedRadioButtonView = optionsGroup.findViewById(selectedRadioButtonId);
+        return optionsGroup.indexOfChild(selectedRadioButtonView);
+    }
+
     private void jumpToNewActivity() {
 
         Intent intent = new Intent();
+
         intent.setClass(MainActivity.this, PokemonListActivity.class);
+        intent.putExtra(selectedPokemonIndexKey, getSelectedPokemonIndex());
+
         startActivity(intent);
 
     }
