@@ -37,4 +37,10 @@ public class CustomizedActivity extends AppCompatActivity {
         super.onStop();
         Log.d(debug_tag, "it's onStop");
     }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        Log.d(debug_tag, "it's onDestroy");
+    }
 }
