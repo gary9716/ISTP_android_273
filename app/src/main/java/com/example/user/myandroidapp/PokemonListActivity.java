@@ -13,7 +13,7 @@ import com.example.user.myandroidapp.model.OwnedPokemonInfo;
 
 import java.util.ArrayList;
 
-public class PokemonListActivity extends AppCompatActivity {
+public class PokemonListActivity extends AppCompatActivity implements OnPokemonSelectedChangeListener {
 
     PokemonListViewAdapter arrayAdapter;
     ArrayList<OwnedPokemonInfo> ownedPokemonInfos;
@@ -32,6 +32,7 @@ public class PokemonListActivity extends AppCompatActivity {
         arrayAdapter = new PokemonListViewAdapter(this,
                 R.layout.row_view_of_pokemon_list,
                 ownedPokemonInfos);
+        arrayAdapter.pokemonSelectedChangeListener = this;
 
         listView.setAdapter(arrayAdapter);
 
@@ -61,5 +62,10 @@ public class PokemonListActivity extends AppCompatActivity {
         else {
             return super.onOptionsItemSelected(item);
         }
+    }
+
+    @Override
+    public void onSelectedChange(OwnedPokemonInfo ownedPokemonInfo) {
+        invalidateOptionsMenu(); //make system call onCreateOptionsMenu
     }
 }
