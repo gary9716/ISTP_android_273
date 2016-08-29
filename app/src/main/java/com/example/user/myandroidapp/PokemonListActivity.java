@@ -122,6 +122,7 @@ public class PokemonListActivity extends CustomizedActivity implements OnPokemon
                     Toast.makeText(this, pokemonName + "已經被存到電腦裡了", Toast.LENGTH_SHORT).show();
                 }
             }
+            // add a new result code in DetailActivity and write a corresponding conditional statement here to do the update effect
 
 
         }

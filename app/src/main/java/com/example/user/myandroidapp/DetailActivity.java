@@ -19,7 +19,10 @@ import com.nostra13.universalimageloader.core.ImageLoader;
 public class DetailActivity extends CustomizedActivity {
 
     public final static int savePokemonIntoComputer = 1;
+    //add a new result code here and set the result code in onOptionsItemSelected
+
     OwnedPokemonInfo ownedPokemonInfo;
+    TextView levelText;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -34,7 +37,8 @@ public class DetailActivity extends CustomizedActivity {
         setContentView(R.layout.activity_detail);
 
         ((TextView)findViewById(R.id.nameText)).setText(ownedPokemonInfo.name);
-        ((TextView)findViewById(R.id.levelText)).setText(String.valueOf(ownedPokemonInfo.level));
+        levelText = (TextView)findViewById(R.id.levelText);
+        levelText.setText(String.valueOf(ownedPokemonInfo.level));
         ((TextView)findViewById(R.id.currentHP)).setText(String.valueOf(ownedPokemonInfo.currentHP));
         ((TextView)findViewById(R.id.maxHP)).setText(String.valueOf(ownedPokemonInfo.maxHP));
         int progress = (int)((((float)ownedPokemonInfo.currentHP)/ownedPokemonInfo.maxHP) * 100);
@@ -93,7 +97,7 @@ public class DetailActivity extends CustomizedActivity {
         }
         else if(itemId == R.id.action_level_up) {
             //HW2
-
+            //update levelText this TextView and pass ownedPokemonInfo back to PokemonListActivity
 
             return true;
         }
