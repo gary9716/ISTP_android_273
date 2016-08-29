@@ -22,6 +22,7 @@ public class DetailActivity extends AppCompatActivity {
         Intent srcIntent = getIntent();
         OwnedPokemonInfo ownedPokemonInfo = srcIntent.getParcelableExtra(PokemonListActivity.ownedPokemonInfoKey);
 
+        setUI(ownedPokemonInfo);
     }
 
     void setUI(OwnedPokemonInfo ownedPokemonInfo) {
