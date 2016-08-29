@@ -16,7 +16,7 @@ import com.nostra13.universalimageloader.core.ImageLoader;
 /**
  * Created by user on 2016/8/26.
  */
-public class DetailActivity extends AppCompatActivity {
+public class DetailActivity extends CustomizedActivity {
 
     public final static int savePokemonIntoComputer = 1;
     OwnedPokemonInfo ownedPokemonInfo;
