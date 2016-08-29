@@ -5,6 +5,8 @@ import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.View;
+import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
 
@@ -14,7 +16,10 @@ import com.example.user.myandroidapp.model.OwnedPokemonInfo;
 
 import java.util.ArrayList;
 
-public class PokemonListActivity extends CustomizedActivity implements OnPokemonSelectedChangeListener {
+public class PokemonListActivity extends CustomizedActivity implements OnPokemonSelectedChangeListener, AdapterView.OnItemClickListener {
+
+    public final static int detailActivityRequestCode = 1;
+    public final static String ownedPokemonInfoKey = "ownedPokemonInfoKey";
 
     PokemonListViewAdapter arrayAdapter;
     ArrayList<OwnedPokemonInfo> ownedPokemonInfos;
@@ -43,6 +48,7 @@ public class PokemonListActivity extends CustomizedActivity implements OnPokemon
         arrayAdapter.pokemonSelectedChangeListener = this;
 
         listView.setAdapter(arrayAdapter);
+        listView.setOnItemClickListener(this);
 
     }
 
@@ -84,5 +90,25 @@ public class PokemonListActivity extends CustomizedActivity implements OnPokemon
     @Override
     public void onSelectedChange(OwnedPokemonInfo ownedPokemonInfo) {
         invalidateOptionsMenu(); //make system call onCreateOptionsMenu
+    }
+
+    @Override
+    public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+        OwnedPokemonInfo ownedPokemonInfo = arrayAdapter.getItem(position);
+
+        Intent intent = new Intent();
+        intent.setClass(PokemonListActivity.this, DetailActivity.class);
+        intent.putExtra(ownedPokemonInfoKey, ownedPokemonInfo);
+        startActivityForResult(intent, detailActivityRequestCode);
+
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        if(requestCode == detailActivityRequestCode) { //this result came from detail activity
+
+        }
+
     }
 }
