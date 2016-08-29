@@ -5,13 +5,18 @@
     android:background="@android:color/white">
 
     <ImageView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:id="@+id/appearanceImg" />
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:id="@+id/appearanceImg"
+        android:src="@drawable/detail_gyarados"
+        android:layout_weight="1"
+        android:paddingTop="10dp"
+        android:paddingBottom="10dp" />
 
     <RelativeLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
+        android:layout_height="0dp"
+        android:layout_weight="2">
 
         <TextView
             android:layout_width="wrap_content"
