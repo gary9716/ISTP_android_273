@@ -9,6 +9,7 @@ import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
+import android.widget.Toast;
 
 import com.example.user.myandroidapp.adapter.PokemonListViewAdapter;
 import com.example.user.myandroidapp.model.OwnedPokemonDataManager;
@@ -110,7 +111,16 @@ public class PokemonListActivity extends CustomizedActivity implements OnPokemon
         if(requestCode == detailActivityRequestCode) { //this result came from detail activity
             if(resultCode == DetailActivity.savePokemonIntoComputer) {
                 String pokemonName = data.getStringExtra(OwnedPokemonInfo.nameKey);
+                if(arrayAdapter != null) {
+                    OwnedPokemonInfo ownedPokemonInfo = arrayAdapter.getItemWithName(pokemonName);
+                    arrayAdapter.remove(ownedPokemonInfo);
 
+                    //alternatives
+//                    ownedPokemonInfos.remove(ownedPokemonInfo);
+//                    arrayAdapter.notifyDataSetChanged();
+
+                    Toast.makeText(this, pokemonName + "已經被存到電腦裡了", Toast.LENGTH_SHORT).show();
+                }
             }
 
 
