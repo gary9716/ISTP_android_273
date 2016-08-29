@@ -139,4 +139,27 @@ public class PokemonListViewAdapter extends ArrayAdapter<OwnedPokemonInfo> imple
         }
     }
 
+    public OwnedPokemonInfo getItemWithName(String pokemonName) {
+        for(int i = 0;i < getCount();i++) {
+            OwnedPokemonInfo ownedPokemonInfo = getItem(i);
+            if(ownedPokemonInfo.name.equals(pokemonName)) {
+                return ownedPokemonInfo;
+            }
+        }
+
+        return null;
+    }
+
+    public void update(OwnedPokemonInfo newData) {
+        OwnedPokemonInfo oldData = getItemWithName(newData.name);
+        oldData.skills = newData.skills;
+        oldData.currentHP = newData.currentHP;
+        oldData.maxHP = newData.maxHP;
+        oldData.level = newData.level;
+        oldData.type_1 = newData.type_1;
+        oldData.type_2 = newData.type_2;
+
+        notifyDataSetChanged(); //reflect changes on ListView
+    }
+
 }

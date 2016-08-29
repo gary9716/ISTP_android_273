@@ -4,6 +4,8 @@ import android.content.Intent;
 import android.content.res.Resources;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
+import android.view.Menu;
+import android.view.MenuItem;
 import android.widget.ImageView;
 import android.widget.ProgressBar;
 import android.widget.TextView;
@@ -16,11 +18,14 @@ import com.nostra13.universalimageloader.core.ImageLoader;
  */
 public class DetailActivity extends AppCompatActivity {
 
+    public final static int savePokemonIntoComputer = 1;
+    OwnedPokemonInfo ownedPokemonInfo;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         Intent srcIntent = getIntent();
-        OwnedPokemonInfo ownedPokemonInfo = srcIntent.getParcelableExtra(PokemonListActivity.ownedPokemonInfoKey);
+        ownedPokemonInfo = srcIntent.getParcelableExtra(PokemonListActivity.ownedPokemonInfoKey);
 
         setUI(ownedPokemonInfo);
     }
@@ -65,9 +70,36 @@ public class DetailActivity extends AppCompatActivity {
         }
 
         String url = String.format("http://www.csie.ntu.edu.tw/~r03944003/detailImg/%d.png", ownedPokemonInfo.pokemonId);
-        ImageLoader.getInstance().displayImage(url, (ImageView)findViewById(R.id.appearanceImg));
+        ImageLoader.getInstance().displayImage(url, (ImageView) findViewById(R.id.appearanceImg));
 
     }
 
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        getMenuInflater().inflate(R.menu.detail_action_bar, menu);
+        return true;
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        int itemId = item.getItemId();
+        if(itemId == R.id.action_save) {
+            Intent intent = new Intent();
+            intent.putExtra(OwnedPokemonInfo.nameKey, ownedPokemonInfo.name);
+            setResult(savePokemonIntoComputer, intent);
+            finish();
+
+            return true;
+        }
+        else if(itemId == R.id.action_level_up) {
+            //HW2
+
+
+            return true;
+        }
+        else {
+            return super.onOptionsItemSelected(item);
+        }
+    }
 
 }

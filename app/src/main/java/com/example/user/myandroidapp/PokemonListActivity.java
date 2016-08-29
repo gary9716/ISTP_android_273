@@ -108,6 +108,11 @@ public class PokemonListActivity extends CustomizedActivity implements OnPokemon
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
         if(requestCode == detailActivityRequestCode) { //this result came from detail activity
+            if(resultCode == DetailActivity.savePokemonIntoComputer) {
+                String pokemonName = data.getStringExtra(OwnedPokemonInfo.nameKey);
+
+            }
+
 
         }
 
