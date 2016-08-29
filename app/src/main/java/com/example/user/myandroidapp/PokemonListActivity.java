@@ -33,6 +33,7 @@ public class PokemonListActivity extends CustomizedActivity implements OnPokemon
 
         OwnedPokemonDataManager dataManager = new OwnedPokemonDataManager(this);
         dataManager.loadListViewData();
+        dataManager.loadPokemonTypes();
 
         ownedPokemonInfos = dataManager.getOwnedPokemonInfos();
 
