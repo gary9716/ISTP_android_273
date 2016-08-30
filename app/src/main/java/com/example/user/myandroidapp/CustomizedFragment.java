@@ -18,7 +18,7 @@ import android.view.ViewGroup;
 public class CustomizedFragment extends Fragment {
 
     public final static String debug_tag = "fragmentTest";
-    String fragmentName = "";
+    public String fragmentName = "";
 
     @Override
     public void onAttach(Activity activity) {
