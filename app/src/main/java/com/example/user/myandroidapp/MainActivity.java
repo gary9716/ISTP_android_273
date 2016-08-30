@@ -66,7 +66,7 @@ public class MainActivity extends CustomizedActivity implements View.OnClickList
                 .Builder(this)
                 .colors(getResources().getIntArray(R.array.gplus_colors))
                 .sweepSpeed(1f)
-                .strokeWidth(8f)
+                .strokeWidth(10f)
                 .build()
         );
 
@@ -92,6 +92,7 @@ public class MainActivity extends CustomizedActivity implements View.OnClickList
             progressBar.setVisibility(View.VISIBLE);
             isFirstTimeUsingThisPage = false;
 
+            //automatically jump to new activity
             confirmBtn.performClick();
         }
 
@@ -120,6 +121,12 @@ public class MainActivity extends CustomizedActivity implements View.OnClickList
 
 //                RadioButton selectedRadioButton = (RadioButton) selectedRadioButtonView;
 //                String radioBtnText = selectedRadioButton.getText().toString();
+
+                SharedPreferences.Editor editor = preferences.edit();
+                editor.putString(trainerNameKey, nameOfTheTrainer);
+                editor.putInt(selectedOptionIndexKey, selectedOptionIndex);
+                editor.commit();
+
             }
 
             String welcomeMessage = String.format(
@@ -130,7 +137,7 @@ public class MainActivity extends CustomizedActivity implements View.OnClickList
 
             infoText.setText(welcomeMessage);
 
-            handler.postDelayed(jumpToNewActivityTask, 3 * 1000); //delay 3 seconds
+            handler.postDelayed(jumpToNewActivityTask, 5 * 1000); //delay 3 seconds
         }
     }
 
@@ -145,7 +152,7 @@ public class MainActivity extends CustomizedActivity implements View.OnClickList
         Intent intent = new Intent();
 
         intent.setClass(MainActivity.this, PokemonListActivity.class);
-        intent.putExtra(selectedPokemonIndexKey, getSelectedPokemonIndex());
+        intent.putExtra(selectedPokemonIndexKey, selectedOptionIndex);
 
         startActivity(intent);
         finish();
