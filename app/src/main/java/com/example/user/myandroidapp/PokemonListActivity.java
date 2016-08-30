@@ -1,5 +1,7 @@
 package com.example.user.myandroidapp;
 
+import android.app.AlertDialog;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -17,13 +19,14 @@ import com.example.user.myandroidapp.model.OwnedPokemonInfo;
 
 import java.util.ArrayList;
 
-public class PokemonListActivity extends CustomizedActivity implements OnPokemonSelectedChangeListener, AdapterView.OnItemClickListener {
+public class PokemonListActivity extends CustomizedActivity implements OnPokemonSelectedChangeListener, AdapterView.OnItemClickListener, DialogInterface.OnClickListener {
 
     public final static int detailActivityRequestCode = 1;
     public final static String ownedPokemonInfoKey = "ownedPokemonInfoKey";
 
     PokemonListViewAdapter arrayAdapter;
     ArrayList<OwnedPokemonInfo> ownedPokemonInfos;
+    AlertDialog alertDialog;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -52,6 +55,13 @@ public class PokemonListActivity extends CustomizedActivity implements OnPokemon
         listView.setAdapter(arrayAdapter);
         listView.setOnItemClickListener(this);
 
+        alertDialog = new AlertDialog.Builder(this)
+                .setTitle("警告")
+                .setMessage("你確定要丟棄這些神奇寶貝嗎")
+                .setNegativeButton("取消", this)
+                .setPositiveButton("確定", this)
+                .create();
+
     }
 
     @Override
@@ -65,23 +75,28 @@ public class PokemonListActivity extends CustomizedActivity implements OnPokemon
         }
     }
 
-    @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
-        int itemId = item.getItemId();
-        if(itemId == R.id.action_delete) {
-            for(OwnedPokemonInfo ownedPokemonInfo : arrayAdapter.selectedPokemons) {
-                ownedPokemonInfos.remove(ownedPokemonInfo);
-            }
-            arrayAdapter.selectedPokemons.clear();
-            arrayAdapter.notifyDataSetChanged();
 
-            // second way to remove from ownedPokemonInfos
+    void deleteOwnedPokemons() {
+        for(OwnedPokemonInfo ownedPokemonInfo : arrayAdapter.selectedPokemons) {
+            ownedPokemonInfos.remove(ownedPokemonInfo);
+        }
+        arrayAdapter.selectedPokemons.clear();
+        arrayAdapter.notifyDataSetChanged();
+
+        // second way to remove from ownedPokemonInfos
 //            for(OwnedPokemonInfo ownedPokemonInfo : arrayAdapter.selectedPokemons) {
 //                arrayAdapter.remove(ownedPokemonInfo);
 //            }
 //            arrayAdapter.selectedPokemons.clear();
 
-            invalidateOptionsMenu();
+        invalidateOptionsMenu();
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        int itemId = item.getItemId();
+        if(itemId == R.id.action_delete) {
+            alertDialog.show();
             return true;
         }
         else {
@@ -125,6 +140,18 @@ public class PokemonListActivity extends CustomizedActivity implements OnPokemon
             // add a new result code in DetailActivity and write a corresponding conditional statement here to do the update effect
 
 
+        }
+
+    }
+
+    @Override
+    public void onClick(DialogInterface dialog, int which) {
+
+        if(which == AlertDialog.BUTTON_NEGATIVE) {
+            Toast.makeText(this, "取消丟棄", Toast.LENGTH_SHORT).show();
+        }
+        else if(which == AlertDialog.BUTTON_POSITIVE) {
+            deleteOwnedPokemons();
         }
 
     }
