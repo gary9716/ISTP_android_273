@@ -36,7 +36,16 @@
             android:layout_below="@+id/infoText"
             android:layout_centerHorizontal="true"
             android:layout_marginTop="20dp"
-            android:hint="請輸入你的名字" />
+            android:hint="請輸入你的名字"
+            android:visibility="invisible" />
+
+        <ProgressBar
+            style="?android:attr/progressBarStyleLarge"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/loadingBar"
+            android:layout_centerInParent="true"
+            android:visibility="invisible" />
 
         <RadioGroup
             android:layout_width="wrap_content"
@@ -44,7 +53,8 @@
             android:layout_below="@+id/nameEditText"
             android:layout_centerHorizontal="true"
             android:layout_marginTop="20dp"
-            android:id="@+id/optionsGroup">
+            android:id="@+id/optionsGroup"
+            android:visibility="invisible">
 
             <RadioButton
                 android:layout_width="wrap_content"
@@ -73,7 +83,8 @@
             android:id="@+id/confirmButton"
             android:layout_below="@+id/optionsGroup"
             android:layout_centerHorizontal="true"
-            android:layout_marginTop="20dp" />
+            android:layout_marginTop="20dp"
+            android:visibility="invisible" />
 
     </RelativeLayout>
 </LinearLayout>
