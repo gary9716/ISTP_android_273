@@ -1,6 +1,9 @@
 package com.example.user.myandroidapp;
 
 import android.graphics.drawable.Drawable;
+import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentManager;
+import android.support.v4.app.FragmentTransaction;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
@@ -21,6 +24,9 @@ public class DrawerActivity extends AppCompatActivity implements Drawer.OnDrawer
     AccountHeader headerResult;
     IProfile profile;
     Drawer naviDrawer;
+    Fragment[] fragments;
+
+    final int defaultSelectedIndex = 0;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -29,6 +35,11 @@ public class DrawerActivity extends AppCompatActivity implements Drawer.OnDrawer
 
         toolbar = (Toolbar)findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
+
+        fragments = new Fragment[3];
+        fragments[0] = TestFragment.newInstance("fake 1");
+        fragments[1] = TestFragment.newInstance("fake 2");
+        fragments[2] = TestFragment.newInstance("fake 3");
 
         String profileName = "batman";
         String profileEmail = "batman@gmail.com";
@@ -51,7 +62,9 @@ public class DrawerActivity extends AppCompatActivity implements Drawer.OnDrawer
                 .withSavedInstance(savedInstanceState)
                 .build();
 
-        naviDrawer.setSelectionAtPosition(1, false);
+        //make naviDrawer by default select first item
+        naviDrawer.setSelectionAtPosition(defaultSelectedIndex + 1, false);
+        displayFragment(fragments[defaultSelectedIndex], true);
     }
 
     private void buildDrawerHeader(boolean compact, Bundle savedInstanceState) {
@@ -66,6 +79,17 @@ public class DrawerActivity extends AppCompatActivity implements Drawer.OnDrawer
 
     }
 
+    void displayFragment(Fragment fragment, boolean canBeReversed) {
+        FragmentManager fragmentManager = getSupportFragmentManager();
+        FragmentTransaction transaction = fragmentManager.beginTransaction();
+
+        transaction.replace(R.id.fragmentContainer, fragment);
+        if(canBeReversed) {
+            transaction.addToBackStack(null);
+        }
+
+        transaction.commit();
+    }
 
     @Override
     public boolean onItemClick(View view, int position, IDrawerItem drawerItem) {
