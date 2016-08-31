@@ -7,6 +7,9 @@ import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
@@ -57,6 +60,8 @@ public class PokemonListFragment extends Fragment implements OnPokemonSelectedCh
         int selectedIndex = srcIntent.getIntExtra(MainActivity.selectedPokemonIndexKey, 0);
         ownedPokemonInfos.add(0, initPokemonInfos[selectedIndex]);
 
+        setHasOptionsMenu(true);
+        setMenuVisibility(true);
     }
 
     @Nullable
@@ -84,6 +89,25 @@ public class PokemonListFragment extends Fragment implements OnPokemonSelectedCh
         }
 
         return fragmentView;
+    }
+
+    @Override
+    public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
+        if(!arrayAdapter.selectedPokemons.isEmpty()) {
+            inflater.inflate(R.menu.selected_pokemon_action_bar, menu);
+        }
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        int itemId = item.getItemId();
+        if(itemId == R.id.action_delete) {
+            alertDialog.show();
+            return true;
+        }
+        else {
+            return super.onOptionsItemSelected(item);
+        }
     }
 
     @Override
