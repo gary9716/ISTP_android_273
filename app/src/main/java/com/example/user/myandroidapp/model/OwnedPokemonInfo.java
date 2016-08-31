@@ -13,8 +13,14 @@ import com.parse.ParseObject;
 @ParseClassName("OwnedPokemonInfo")
 public class OwnedPokemonInfo extends ParseObject implements Parcelable {
 
+    public final static String pokemonIdKey = "pokeId";
     public final static String nameKey = "name";
-
+    public final static String levelKey = "level";
+    public final static String currentHPKey = "currentHP";
+    public final static String maxHPKey = "maxHP";
+    public final static String type1Key = "type_1";
+    public final static String type2Key = "type_2";
+    public final static String skillsKey = "skills";
 
     public static final int maxNumSkills = 4;
     public static String[] typeNames;
@@ -73,14 +79,18 @@ public class OwnedPokemonInfo extends ParseObject implements Parcelable {
         }
     };
 
+    //getter and setter
+
     public int getPokemonId() {
-        return pokemonId;
+        return getInt(pokemonIdKey);
     }
 
     public void setPokemonId(int pokemonId) {
-        this.pokemonId = pokemonId;
+        put(pokemonIdKey, pokemonId);
     }
 
+
+    
     public String getName() {
         return name;
     }
