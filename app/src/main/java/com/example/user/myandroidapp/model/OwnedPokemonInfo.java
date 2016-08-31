@@ -90,7 +90,7 @@ public class OwnedPokemonInfo extends ParseObject implements Parcelable {
     }
 
 
-    
+
     public String getName() {
         return name;
     }

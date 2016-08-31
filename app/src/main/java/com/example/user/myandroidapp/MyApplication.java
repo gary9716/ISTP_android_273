@@ -3,10 +3,12 @@ package com.example.user.myandroidapp;
 import android.app.Application;
 import android.view.Display;
 
+import com.example.user.myandroidapp.model.OwnedPokemonInfo;
 import com.nostra13.universalimageloader.core.DisplayImageOptions;
 import com.nostra13.universalimageloader.core.ImageLoader;
 import com.nostra13.universalimageloader.core.ImageLoaderConfiguration;
 import com.parse.Parse;
+import com.parse.ParseObject;
 
 /**
  * Created by user on 2016/8/25.
@@ -17,6 +19,7 @@ public class MyApplication extends Application {
     public void onCreate() {
         super.onCreate();
 
+        ParseObject.registerSubclass(OwnedPokemonInfo.class);
         Parse.initialize(new Parse.Configuration.Builder(getApplicationContext())
                 .enableLocalDataStore()
                 .applicationId("aBriKu0h4EZgnb8Sft9Uv4HyDZHOj01WZQp3jPs1")
