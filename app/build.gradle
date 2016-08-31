@@ -32,4 +32,5 @@ dependencies {
     compile 'com.mikepenz:google-material-typeface:2.2.0.1@aar'
     compile 'com.mikepenz:fontawesome-typeface:4.4.0.1@aar'
     compile 'com.mikepenz:octicons-typeface:3.0.0.1@aar'
+    compile 'com.parse:parse-android:1.13.1'
 }
