@@ -74,26 +74,29 @@ public class OwnedPokemonDataManager {
 
     private OwnedPokemonInfo constructPokemonInfo(String[] dataFields) {
         OwnedPokemonInfo ownedPokemonInfo = new OwnedPokemonInfo();
-        ownedPokemonInfo.pokemonId = Integer.valueOf(dataFields[0]);
-        ownedPokemonInfo.name = dataFields[2];
-        ownedPokemonInfo.level = Integer.valueOf(dataFields[3]);
-        ownedPokemonInfo.currentHP = Integer.valueOf(dataFields[4]);
-        ownedPokemonInfo.maxHP = Integer.valueOf(dataFields[5]);
-        ownedPokemonInfo.type_1 = Integer.valueOf(dataFields[6]);
-        ownedPokemonInfo.type_2 = Integer.valueOf(dataFields[7]);
+        ownedPokemonInfo.setPokemonId(Integer.valueOf(dataFields[0]));
+        ownedPokemonInfo.setName(dataFields[2]);
+        ownedPokemonInfo.setLevel(Integer.valueOf(dataFields[3]));
+        ownedPokemonInfo.setCurrentHP(Integer.valueOf(dataFields[4]));
+        ownedPokemonInfo.setMaxHP(Integer.valueOf(dataFields[5]));
+        ownedPokemonInfo.setType_1(Integer.valueOf(dataFields[6]));
+        ownedPokemonInfo.setType_2(Integer.valueOf(dataFields[7]));
 
+        String[] skills = new String[OwnedPokemonInfo.maxNumSkills];
         for(int i = skillStartIndex;i < dataFields.length;i++) {
-            ownedPokemonInfo.skills[i - skillStartIndex] = dataFields[i];
+            skills[i - skillStartIndex] = dataFields[i];
         }
 
-        Log.d("testDM", ownedPokemonInfo.pokemonId + "," +
-                ownedPokemonInfo.name + "," +
-                ownedPokemonInfo.level + "," +
-                ownedPokemonInfo.type_1 + "," +
-                ownedPokemonInfo.type_2 + "," +
-                ownedPokemonInfo.currentHP + "," +
-                ownedPokemonInfo.maxHP + "," +
-                Arrays.toString(ownedPokemonInfo.skills));
+        ownedPokemonInfo.setSkills(skills);
+
+        Log.d("testDM", ownedPokemonInfo.getPokemonId() + "," +
+                ownedPokemonInfo.getName() + "," +
+                ownedPokemonInfo.getLevel() + "," +
+                ownedPokemonInfo.getType_1() + "," +
+                ownedPokemonInfo.getType_2() + "," +
+                ownedPokemonInfo.getCurrentHP() + "," +
+                ownedPokemonInfo.getMaxHP() + "," +
+                Arrays.toString(ownedPokemonInfo.getSkills()));
 
         return ownedPokemonInfo;
     }

@@ -3,7 +3,6 @@ package com.example.user.myandroidapp;
 import android.content.Intent;
 import android.content.res.Resources;
 import android.os.Bundle;
-import android.support.v7.app.AppCompatActivity;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.ImageView;
@@ -36,25 +35,25 @@ public class DetailActivity extends CustomizedActivity {
     void setUI(OwnedPokemonInfo ownedPokemonInfo) {
         setContentView(R.layout.activity_detail);
 
-        ((TextView)findViewById(R.id.nameText)).setText(ownedPokemonInfo.name);
+        ((TextView)findViewById(R.id.nameText)).setText(ownedPokemonInfo.getName());
         levelText = (TextView)findViewById(R.id.levelText);
-        levelText.setText(String.valueOf(ownedPokemonInfo.level));
-        ((TextView)findViewById(R.id.currentHP)).setText(String.valueOf(ownedPokemonInfo.currentHP));
-        ((TextView)findViewById(R.id.maxHP)).setText(String.valueOf(ownedPokemonInfo.maxHP));
-        int progress = (int)((((float)ownedPokemonInfo.currentHP)/ownedPokemonInfo.maxHP) * 100);
+        levelText.setText(String.valueOf(ownedPokemonInfo.getLevel()));
+        ((TextView)findViewById(R.id.currentHP)).setText(String.valueOf(ownedPokemonInfo.getCurrentHP()));
+        ((TextView)findViewById(R.id.maxHP)).setText(String.valueOf(ownedPokemonInfo.getMaxHP()));
+        int progress = (int)((((float) ownedPokemonInfo.getCurrentHP())/ ownedPokemonInfo.getMaxHP()) * 100);
         ((ProgressBar)findViewById(R.id.hpBar)).setProgress(progress);
 
         TextView type1Text = (TextView)findViewById(R.id.type1Text);
-        if(ownedPokemonInfo.type_1 != -1) {
-            type1Text.setText(OwnedPokemonInfo.typeNames[ownedPokemonInfo.type_1]);
+        if(ownedPokemonInfo.getType_1() != -1) {
+            type1Text.setText(OwnedPokemonInfo.typeNames[ownedPokemonInfo.getType_1()]);
         }
         else {
             type1Text.setText("");
         }
 
         TextView type2Text = (TextView)findViewById(R.id.type2Text);
-        if(ownedPokemonInfo.type_2 != -1) {
-            type2Text.setText(OwnedPokemonInfo.typeNames[ownedPokemonInfo.type_2]);
+        if(ownedPokemonInfo.getType_2() != -1) {
+            type2Text.setText(OwnedPokemonInfo.typeNames[ownedPokemonInfo.getType_2()]);
         }
         else {
             type2Text.setText("");
@@ -65,15 +64,15 @@ public class DetailActivity extends CustomizedActivity {
         for(int i = 1;i <= OwnedPokemonInfo.maxNumSkills;i++) {
             int skillResId = resources.getIdentifier(String.format("skill%dText", i), "id", getPackageName());
             TextView skillTextView = ((TextView) findViewById(skillResId));
-            if(ownedPokemonInfo.skills[i - 1] != null) {
-                skillTextView.setText(ownedPokemonInfo.skills[i - 1]);
+            if(ownedPokemonInfo.getSkills()[i - 1] != null) {
+                skillTextView.setText(ownedPokemonInfo.getSkills()[i - 1]);
             }
             else {
                 skillTextView.setText("");
             }
         }
 
-        String url = String.format("http://www.csie.ntu.edu.tw/~r03944003/detailImg/%d.png", ownedPokemonInfo.pokemonId);
+        String url = String.format("http://www.csie.ntu.edu.tw/~r03944003/detailImg/%d.png", ownedPokemonInfo.getPokemonId());
         ImageLoader.getInstance().displayImage(url, (ImageView) findViewById(R.id.appearanceImg));
 
     }
@@ -89,7 +88,7 @@ public class DetailActivity extends CustomizedActivity {
         int itemId = item.getItemId();
         if(itemId == R.id.action_save) {
             Intent intent = new Intent();
-            intent.putExtra(OwnedPokemonInfo.nameKey, ownedPokemonInfo.name);
+            intent.putExtra(OwnedPokemonInfo.nameKey, ownedPokemonInfo.getName());
             setResult(savePokemonIntoComputer, intent);
             finish();
 
