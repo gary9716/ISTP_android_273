@@ -18,13 +18,14 @@ import com.mikepenz.materialdrawer.model.ProfileDrawerItem;
 import com.mikepenz.materialdrawer.model.interfaces.IDrawerItem;
 import com.mikepenz.materialdrawer.model.interfaces.IProfile;
 
-public class DrawerActivity extends AppCompatActivity implements Drawer.OnDrawerItemClickListener {
+public class DrawerActivity extends AppCompatActivity implements Drawer.OnDrawerItemClickListener, FragmentManager.OnBackStackChangedListener {
 
     Toolbar toolbar;
     AccountHeader headerResult;
     IProfile profile;
     Drawer naviDrawer;
     Fragment[] fragments;
+    FragmentManager fragmentManager;
 
     final int defaultSelectedIndex = 0;
 
@@ -32,6 +33,9 @@ public class DrawerActivity extends AppCompatActivity implements Drawer.OnDrawer
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_drawer);
+
+        fragmentManager = getSupportFragmentManager();
+        fragmentManager.addOnBackStackChangedListener(this);
 
         toolbar = (Toolbar)findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
@@ -74,13 +78,21 @@ public class DrawerActivity extends AppCompatActivity implements Drawer.OnDrawer
                 .withHeaderBackground(R.drawable.header)
                 .withCompactStyle(compact)
                 .addProfiles(profile)
-                .withSavedInstance(savedInstanceState)
+                .withSavedInstance(savedInstanceState) //recover
                 .build();
 
     }
 
+    @Override
+    protected void onSaveInstanceState(Bundle outState) {
+        //save drawer and headers' UI state
+        outState = naviDrawer.saveInstanceState(outState);
+        outState = headerResult.saveInstanceState(outState);
+
+        super.onSaveInstanceState(outState);
+    }
+
     void displayFragment(Fragment fragment, boolean canBeReversed) {
-        FragmentManager fragmentManager = getSupportFragmentManager();
         FragmentTransaction transaction = fragmentManager.beginTransaction();
 
         transaction.replace(R.id.fragmentContainer, fragment);
@@ -92,8 +104,33 @@ public class DrawerActivity extends AppCompatActivity implements Drawer.OnDrawer
     }
 
     @Override
+    public void onBackPressed() {
+
+        if(naviDrawer != null && naviDrawer.isDrawerOpen()) {
+            naviDrawer.closeDrawer();
+        }
+        else if(fragmentManager.getBackStackEntryCount() > 0) {
+            fragmentManager.popBackStack();
+        }
+        else {
+            super.onBackPressed();
+        }
+
+    }
+
+    @Override
     public boolean onItemClick(View view, int position, IDrawerItem drawerItem) {
-        //TODO: display corresponding fragment
+        displayFragment(fragments[position - 1], true);
         return false; //return false to bound back the drawer after clicking one of items
+    }
+
+    @Override
+    public void onBackStackChanged() {
+        for(int i = 0;i < fragments.length;i++) {
+            if(fragments[i].isVisible()) {
+                naviDrawer.setSelectionAtPosition(i + 1, false);
+                break;
+            }
+        }
     }
 }
