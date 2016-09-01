@@ -56,6 +56,7 @@ public class PokemonListFragment extends Fragment implements OnPokemonSelectedCh
         super.onCreate(savedInstanceState);
 
         ownedPokemonInfos = new ArrayList<>();
+        prepareListViewData();
 
         setHasOptionsMenu(true);
         setMenuVisibility(true);
