@@ -1,8 +1,10 @@
 package com.example.user.myandroidapp;
 
 import android.app.AlertDialog;
+import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
@@ -19,13 +21,17 @@ import android.widget.Toast;
 import com.example.user.myandroidapp.adapter.PokemonListViewAdapter;
 import com.example.user.myandroidapp.model.OwnedPokemonDataManager;
 import com.example.user.myandroidapp.model.OwnedPokemonInfo;
+import com.parse.FindCallback;
+import com.parse.ParseException;
+import com.parse.ParseQuery;
 
 import java.util.ArrayList;
+import java.util.List;
 
 /**
  * Created by user on 2016/8/31.
  */
-public class PokemonListFragment extends Fragment implements OnPokemonSelectedChangeListener, AdapterView.OnItemClickListener, DialogInterface.OnClickListener {
+public class PokemonListFragment extends Fragment implements OnPokemonSelectedChangeListener, AdapterView.OnItemClickListener, DialogInterface.OnClickListener, FindCallback<OwnedPokemonInfo> {
 
     public final static int detailActivityRequestCode = 1;
     public final static String ownedPokemonInfoKey = "ownedPokemonInfoKey";
@@ -49,6 +55,35 @@ public class PokemonListFragment extends Fragment implements OnPokemonSelectedCh
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
+        setHasOptionsMenu(true);
+        setMenuVisibility(true);
+    }
+
+    private final static String recordIsInDBKey = "recordIsInDB";
+
+    void prepareListViewData() {
+        SharedPreferences preferences =
+                getActivity().getSharedPreferences(PokemonListFragment.class.getSimpleName(),
+                        Context.MODE_PRIVATE);
+
+        boolean recordIsInDB = preferences.getBoolean(recordIsInDBKey, false);
+
+        if(!recordIsInDB) { //load data from csv and save it into DB
+            loadFromCSV();
+            //TODO: save it into DB
+            preferences.edit().putBoolean(recordIsInDBKey, true).commit();
+        }
+        else {
+            ParseQuery<OwnedPokemonInfo> query = OwnedPokemonInfo.getQuery();
+            query.fromPin(OwnedPokemonInfo.localDBTableName).findInBackground(this);
+            query = OwnedPokemonInfo.getQuery();
+            query.findInBackground(this);
+        }
+
+    }
+
+    void loadFromCSV() {
+
         OwnedPokemonDataManager dataManager = new OwnedPokemonDataManager(getActivity());
         dataManager.loadListViewData();
         dataManager.loadPokemonTypes();
@@ -60,9 +95,8 @@ public class PokemonListFragment extends Fragment implements OnPokemonSelectedCh
         int selectedIndex = srcIntent.getIntExtra(MainActivity.selectedPokemonIndexKey, 0);
         ownedPokemonInfos.add(0, initPokemonInfos[selectedIndex]);
 
-        setHasOptionsMenu(true);
-        setMenuVisibility(true);
     }
+
 
     @Nullable
     @Override
@@ -174,5 +208,11 @@ public class PokemonListFragment extends Fragment implements OnPokemonSelectedCh
 //            arrayAdapter.selectedPokemons.clear();
 
         getActivity().invalidateOptionsMenu();
+    }
+
+    //when data has been read from DB
+    @Override
+    public void done(List<OwnedPokemonInfo> objects, ParseException e) {
+
     }
 }

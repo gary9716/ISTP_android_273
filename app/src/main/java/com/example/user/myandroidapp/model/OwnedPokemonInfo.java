@@ -5,6 +5,7 @@ import android.os.Parcelable;
 
 import com.parse.ParseClassName;
 import com.parse.ParseObject;
+import com.parse.ParseQuery;
 
 import java.util.ArrayList;
 
@@ -173,6 +174,10 @@ public class OwnedPokemonInfo extends ParseObject implements Parcelable {
         skillHaveBeenModified = true;
     }
 
+    public static ParseQuery<OwnedPokemonInfo> getQuery() {
+        return ParseQuery.getQuery(OwnedPokemonInfo.class);
+    }
 
+    public static final String localDBTableName = OwnedPokemonInfo.class.getSimpleName();
 
 }
