@@ -55,6 +55,8 @@ public class PokemonListFragment extends Fragment implements OnPokemonSelectedCh
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
+        ownedPokemonInfos = new ArrayList<>();
+
         setHasOptionsMenu(true);
         setMenuVisibility(true);
     }
@@ -88,7 +90,7 @@ public class PokemonListFragment extends Fragment implements OnPokemonSelectedCh
         dataManager.loadListViewData();
         dataManager.loadPokemonTypes();
 
-        ownedPokemonInfos = dataManager.getOwnedPokemonInfos();
+        ownedPokemonInfos.addAll(dataManager.getOwnedPokemonInfos());
 
         OwnedPokemonInfo[] initPokemonInfos = dataManager.getInitPokemonInfos();
         Intent srcIntent = getActivity().getIntent();
@@ -178,11 +180,8 @@ public class PokemonListFragment extends Fragment implements OnPokemonSelectedCh
                 String pokemonName = data.getStringExtra(OwnedPokemonInfo.nameKey);
                 if(arrayAdapter != null) {
                     OwnedPokemonInfo ownedPokemonInfo = arrayAdapter.getItemWithName(pokemonName);
-                    arrayAdapter.remove(ownedPokemonInfo);
-
-                    //alternatives
-//                    ownedPokemonInfos.remove(ownedPokemonInfo);
-//                    arrayAdapter.notifyDataSetChanged();
+                    if(ownedPokemonInfo != null)
+                        removePokemonInfo(ownedPokemonInfo);
 
                     Toast.makeText(getActivity(), pokemonName + "已經被存到電腦裡了", Toast.LENGTH_SHORT).show();
                 }
@@ -196,16 +195,10 @@ public class PokemonListFragment extends Fragment implements OnPokemonSelectedCh
 
     void deleteOwnedPokemons() {
         for(OwnedPokemonInfo ownedPokemonInfo : arrayAdapter.selectedPokemons) {
-            ownedPokemonInfos.remove(ownedPokemonInfo);
+            removePokemonInfo(ownedPokemonInfo);
         }
         arrayAdapter.selectedPokemons.clear();
         arrayAdapter.notifyDataSetChanged();
-
-        // second way to remove from ownedPokemonInfos
-//            for(OwnedPokemonInfo ownedPokemonInfo : arrayAdapter.selectedPokemons) {
-//                arrayAdapter.remove(ownedPokemonInfo);
-//            }
-//            arrayAdapter.selectedPokemons.clear();
 
         getActivity().invalidateOptionsMenu();
     }
@@ -213,6 +206,24 @@ public class PokemonListFragment extends Fragment implements OnPokemonSelectedCh
     //when data has been read from DB
     @Override
     public void done(List<OwnedPokemonInfo> objects, ParseException e) {
+        if(e == null) { //no error
+            ownedPokemonInfos.clear();
+            ownedPokemonInfos.addAll(objects);
+
+            if(arrayAdapter != null)
+                arrayAdapter.notifyDataSetChanged();
+        }
 
     }
+
+    public void removePokemonInfo(OwnedPokemonInfo pokemonInfo) {
+        if(arrayAdapter != null)
+            arrayAdapter.remove(pokemonInfo);
+
+        //remove from DB
+        pokemonInfo.unpinInBackground(OwnedPokemonInfo.localDBTableName);
+        pokemonInfo.deleteEventually();
+
+    }
+
 }

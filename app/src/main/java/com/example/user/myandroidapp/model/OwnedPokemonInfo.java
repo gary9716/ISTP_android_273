@@ -3,11 +3,14 @@ package com.example.user.myandroidapp.model;
 import android.os.Parcel;
 import android.os.Parcelable;
 
+import com.parse.FindCallback;
 import com.parse.ParseClassName;
+import com.parse.ParseException;
 import com.parse.ParseObject;
 import com.parse.ParseQuery;
 
 import java.util.ArrayList;
+import java.util.List;
 
 /**
  * Created by user on 2016/8/24.
@@ -179,5 +182,23 @@ public class OwnedPokemonInfo extends ParseObject implements Parcelable {
     }
 
     public static final String localDBTableName = OwnedPokemonInfo.class.getSimpleName();
+
+    private static final FindCallback<OwnedPokemonInfo> findCallback = new FindCallback<OwnedPokemonInfo>() {
+        @Override
+        public void done(List<OwnedPokemonInfo> objects, ParseException e) {
+            if(e == null && objects != null) {
+                OwnedPokemonInfo.deleteAllInBackground(objects);
+            }
+
+            //TODO: save new data to DB
+        }
+    };
+
+    public static void initDB(ArrayList<OwnedPokemonInfo> ownedPokemonInfos) {
+        OwnedPokemonInfo.unpinAllInBackground(localDBTableName); //try to remove old data from local DB
+        OwnedPokemonInfo.getQuery().findInBackground(findCallback);
+        
+    }
+
 
 }
