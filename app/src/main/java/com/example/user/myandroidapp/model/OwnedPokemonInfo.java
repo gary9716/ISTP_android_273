@@ -183,6 +183,7 @@ public class OwnedPokemonInfo extends ParseObject implements Parcelable {
 
     public static final String localDBTableName = OwnedPokemonInfo.class.getSimpleName();
 
+    private static ArrayList<OwnedPokemonInfo> dataToSave;
     private static final FindCallback<OwnedPokemonInfo> findCallback = new FindCallback<OwnedPokemonInfo>() {
         @Override
         public void done(List<OwnedPokemonInfo> objects, ParseException e) {
@@ -190,14 +191,23 @@ public class OwnedPokemonInfo extends ParseObject implements Parcelable {
                 OwnedPokemonInfo.deleteAllInBackground(objects);
             }
 
-            //TODO: save new data to DB
+            saveToDB(dataToSave);
+            dataToSave = null;
         }
     };
 
     public static void initDB(ArrayList<OwnedPokemonInfo> ownedPokemonInfos) {
+        dataToSave = ownedPokemonInfos;
         OwnedPokemonInfo.unpinAllInBackground(localDBTableName); //try to remove old data from local DB
         OwnedPokemonInfo.getQuery().findInBackground(findCallback);
-        
+
+    }
+
+    public static void saveToDB(ArrayList<OwnedPokemonInfo> ownedPokemonInfos) {
+        OwnedPokemonInfo.pinAllInBackground(localDBTableName, ownedPokemonInfos);
+        for(OwnedPokemonInfo ownedPokemonInfo : ownedPokemonInfos) {
+            ownedPokemonInfo.saveEventually();
+        }
     }
 
 

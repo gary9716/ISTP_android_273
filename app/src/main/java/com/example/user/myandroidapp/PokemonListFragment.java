@@ -72,7 +72,9 @@ public class PokemonListFragment extends Fragment implements OnPokemonSelectedCh
 
         if(!recordIsInDB) { //load data from csv and save it into DB
             loadFromCSV();
-            //TODO: save it into DB
+
+            OwnedPokemonInfo.initDB(ownedPokemonInfos);
+
             preferences.edit().putBoolean(recordIsInDBKey, true).commit();
         }
         else {
@@ -226,4 +228,9 @@ public class PokemonListFragment extends Fragment implements OnPokemonSelectedCh
 
     }
 
+    @Override
+    public void onPause() {
+        super.onPause();
+        OwnedPokemonInfo.saveToDB(ownedPokemonInfos);
+    }
 }
