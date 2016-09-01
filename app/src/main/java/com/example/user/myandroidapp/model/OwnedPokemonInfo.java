@@ -6,6 +6,8 @@ import android.os.Parcelable;
 import com.parse.ParseClassName;
 import com.parse.ParseObject;
 
+import java.util.ArrayList;
+
 /**
  * Created by user on 2016/8/24.
  */
@@ -25,13 +27,6 @@ public class OwnedPokemonInfo extends ParseObject implements Parcelable {
     public static final int maxNumSkills = 4;
     public static String[] typeNames;
 
-    private int pokemonId;
-    private String name;
-    private int level;
-    private int currentHP;
-    private int maxHP;
-    private int type_1;
-    private int type_2;
     private String[] skills = new String[maxNumSkills];
 
     public boolean isSelected = false;
@@ -90,60 +85,94 @@ public class OwnedPokemonInfo extends ParseObject implements Parcelable {
     }
 
 
-
     public String getName() {
-        return name;
+        return getString(nameKey);
     }
 
     public void setName(String name) {
-        this.name = name;
+        put(nameKey, name);
     }
 
     public int getLevel() {
-        return level;
+        return getInt(levelKey);
     }
 
     public void setLevel(int level) {
-        this.level = level;
+        put(levelKey, level);
     }
 
     public int getCurrentHP() {
-        return currentHP;
+        return getInt(currentHPKey);
     }
 
     public void setCurrentHP(int currentHP) {
-        this.currentHP = currentHP;
+        put(currentHPKey, currentHP);
     }
 
     public int getMaxHP() {
-        return maxHP;
+        return getInt(maxHPKey);
     }
 
     public void setMaxHP(int maxHP) {
-        this.maxHP = maxHP;
+        put(maxHPKey, maxHP);
     }
 
     public int getType_1() {
-        return type_1;
+        return getInt(type1Key);
     }
 
     public void setType_1(int type_1) {
-        this.type_1 = type_1;
+        put(type1Key, type_1);
     }
 
     public int getType_2() {
-        return type_2;
+        return getInt(type2Key);
     }
 
     public void setType_2(int type_2) {
-        this.type_2 = type_2;
+        put(type2Key, type_2);
     }
 
+    boolean skillHaveBeenInited = false;
+    boolean skillHaveBeenModified = false;
+
     public String[] getSkills() {
-        return skills;
+        if(!skillHaveBeenInited) {
+            skillHaveBeenInited = true;
+            this.skills = readSkillFromParseObjStorage();
+        }
+        else if(skillHaveBeenModified) {
+            skillHaveBeenModified = false;
+            this.skills = readSkillFromParseObjStorage();
+        }
+
+        return this.skills;
+    }
+
+    private String[] readSkillFromParseObjStorage() {
+        ArrayList<String> skillList = (ArrayList)get(skillsKey);
+        String[] skillArray = new String[maxNumSkills];
+        if(skillList != null) {
+            for(int i = 0;i < skillList.size();i++) {
+                skillArray[i] = skillList.get(i);
+            }
+        }
+
+        return skillArray;
     }
 
     public void setSkills(String[] skills) {
-        this.skills = skills;
+        ArrayList<String> skillList = new ArrayList<>(skills.length);
+        for(String skillName : skills) {
+            if(skillName != null) {
+                skillList.add(skillName);
+            }
+        }
+        put(skillsKey, skillList);
+
+        skillHaveBeenModified = true;
     }
+
+
+
 }
