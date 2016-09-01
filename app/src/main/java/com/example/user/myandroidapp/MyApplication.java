@@ -4,6 +4,8 @@ import android.app.Application;
 import android.view.Display;
 
 import com.example.user.myandroidapp.model.OwnedPokemonInfo;
+import com.facebook.FacebookSdk;
+import com.facebook.appevents.AppEventsLogger;
 import com.nostra13.universalimageloader.core.DisplayImageOptions;
 import com.nostra13.universalimageloader.core.ImageLoader;
 import com.nostra13.universalimageloader.core.ImageLoaderConfiguration;
@@ -41,5 +43,7 @@ public class MyApplication extends Application {
 
         ImageLoader.getInstance().init(config);
 
+        FacebookSdk.sdkInitialize(getApplicationContext());
+        AppEventsLogger.activateApp(this);
     }
 }
