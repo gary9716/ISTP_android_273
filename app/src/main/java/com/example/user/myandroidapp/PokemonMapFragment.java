@@ -12,6 +12,7 @@ import com.google.android.gms.location.LocationRequest;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.OnMapReadyCallback;
 import com.google.android.gms.maps.SupportMapFragment;
+import com.google.android.gms.maps.UiSettings;
 
 /**
  * Created by user on 2016/9/2.
@@ -50,6 +51,11 @@ public class PokemonMapFragment extends Fragment {
             mapFragment.getMapAsync(new OnMapReadyCallback() {
                 @Override
                 public void onMapReady(GoogleMap googleMap) {
+                    map = googleMap;
+
+                    UiSettings mapUISettings = googleMap.getUiSettings();
+                    mapUISettings.setZoomControlsEnabled(true);
+
 
                 }
             });
