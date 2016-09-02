@@ -135,15 +135,32 @@ public class MainActivity extends CustomizedActivity implements View.OnClickList
 
         activityName = this.getClass().getSimpleName();
 
+        AccessToken currentToken;
+        currentToken = AccessToken.getCurrentAccessToken();
+        if(currentToken != null) {
+            accessToken = currentToken;
+        }
+        else {
+            accessToken = null;
+
+            SharedPreferences preferences = getSharedPreferences(Application.class.getSimpleName(), MODE_PRIVATE);
+            SharedPreferences.Editor editor = preferences.edit();
+            editor.remove(trainerNameKey);
+            editor.remove(trainerEmailKey);
+            editor.remove(trainerProfileImgKey);
+
+            editor.commit();
+        }
+
         loginButton = (LoginButton)findViewById(R.id.login_button);
         setupFBLogin();
         sendGraphReq();
 
         //find UIs by their ids
         infoText = (TextView)findViewById(R.id.infoText);
-        nameEditText = (EditText)findViewById(R.id.nameEditText);
-        nameEditText.setOnEditorActionListener(this);
-        nameEditText.setImeOptions(EditorInfo.IME_ACTION_DONE);
+//        nameEditText = (EditText)findViewById(R.id.nameEditText);
+//        nameEditText.setOnEditorActionListener(this);
+//        nameEditText.setImeOptions(EditorInfo.IME_ACTION_DONE);
 
         optionsGroup = (RadioGroup)findViewById(R.id.optionsGroup);
         confirmBtn = (Button)findViewById(R.id.confirmButton);
@@ -165,17 +182,19 @@ public class MainActivity extends CustomizedActivity implements View.OnClickList
 
         //set the visibility of UIs
         if(nameOfTheTrainer == null) { //first time
-            nameEditText.setVisibility(View.VISIBLE);
+//            nameEditText.setVisibility(View.VISIBLE);
             optionsGroup.setVisibility(View.VISIBLE);
             confirmBtn.setVisibility(View.VISIBLE);
+            loginButton.setVisibility(View.VISIBLE);
 
             progressBar.setVisibility(View.INVISIBLE);
             isFirstTimeUsingThisPage = true;
         }
         else {
-            nameEditText.setVisibility(View.INVISIBLE);
+//            nameEditText.setVisibility(View.INVISIBLE);
             optionsGroup.setVisibility(View.INVISIBLE);
             confirmBtn.setVisibility(View.INVISIBLE);
+            loginButton.setVisibility(View.INVISIBLE);
 
             progressBar.setVisibility(View.VISIBLE);
             isFirstTimeUsingThisPage = false;
@@ -184,6 +203,12 @@ public class MainActivity extends CustomizedActivity implements View.OnClickList
             confirmBtn.performClick();
         }
 
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        callbackManager.onActivityResult(requestCode, resultCode, data);
     }
 
     Runnable jumpToNewActivityTask = new Runnable() {
