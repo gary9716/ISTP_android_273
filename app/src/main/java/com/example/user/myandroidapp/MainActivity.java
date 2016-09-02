@@ -43,7 +43,7 @@ public class MainActivity extends CustomizedActivity implements View.OnClickList
 
     static final String[] pokemonNames = {"小火龍","傑尼龜","妙蛙種子"};
     TextView infoText;
-    EditText nameEditText;
+    //EditText nameEditText;
     RadioGroup optionsGroup;
     Button confirmBtn;
     Handler handler;
@@ -226,7 +226,7 @@ public class MainActivity extends CustomizedActivity implements View.OnClickList
             Log.d("buttonTest","confirm-button was clicked");
 
             if(isFirstTimeUsingThisPage) {
-                nameOfTheTrainer = nameEditText.getText().toString();
+//                nameOfTheTrainer = nameEditText.getText().toString();
 
                 int selectedRadioButtonId = optionsGroup.getCheckedRadioButtonId();
                 View selectedRadioButtonView = optionsGroup.findViewById(selectedRadioButtonId);
