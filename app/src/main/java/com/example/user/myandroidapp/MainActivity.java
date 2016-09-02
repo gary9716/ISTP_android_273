@@ -20,12 +20,25 @@ import android.widget.RadioButton;
 import android.widget.RadioGroup;
 import android.widget.TextView;
 
+import com.facebook.AccessToken;
+import com.facebook.CallbackManager;
+import com.facebook.FacebookCallback;
+import com.facebook.FacebookException;
+import com.facebook.GraphRequest;
+import com.facebook.GraphResponse;
+import com.facebook.login.LoginResult;
+import com.facebook.login.widget.LoginButton;
+
+import org.json.JSONObject;
+
 import fr.castorflex.android.circularprogressbar.CircularProgressDrawable;
 
 public class MainActivity extends CustomizedActivity implements View.OnClickListener, EditText.OnEditorActionListener {
 
     public static final String selectedPokemonIndexKey = "selectedPokemonIndexKey";
     public static final String trainerNameKey = "trainerName";
+    public static final String trainerEmailKey = "trainerEmail";
+    public static final String trainerProfileImgKey = "trainerProfileImg";
     public static final String selectedOptionIndexKey = "selectedOptionIndex";
 
     static final String[] pokemonNames = {"小火龍","傑尼龜","妙蛙種子"};
@@ -42,6 +55,77 @@ public class MainActivity extends CustomizedActivity implements View.OnClickList
 
     boolean isFirstTimeUsingThisPage = false;
 
+    CallbackManager callbackManager;
+    AccessToken accessToken;
+    LoginButton loginButton;
+
+    void setupFBLogin() {
+        callbackManager = CallbackManager.Factory.create();
+
+        loginButton.setReadPermissions("public_profile", "email");
+        loginButton.registerCallback(callbackManager, new FacebookCallback<LoginResult>() {
+            @Override
+            public void onSuccess(LoginResult loginResult) {
+                accessToken = loginResult.getAccessToken();
+                sendGraphReq();
+            }
+
+            @Override
+            public void onCancel() {
+
+            }
+
+            @Override
+            public void onError(FacebookException error) {
+
+            }
+        });
+
+    }
+
+    void sendGraphReq() {
+        if(accessToken != null) {
+            GraphRequest request = GraphRequest.newMeRequest(
+                    accessToken,
+                    new GraphRequest.GraphJSONObjectCallback() {
+                        @Override
+                        public void onCompleted(JSONObject object, GraphResponse response) {
+
+                            if(response != null) {
+                                SharedPreferences preferences = getSharedPreferences(Application.class.getSimpleName(), MODE_PRIVATE);
+                                SharedPreferences.Editor editor = preferences.edit();
+
+                                nameOfTheTrainer = object.optString("name");
+                                editor.putString(trainerNameKey, nameOfTheTrainer);
+                                editor.putString(trainerEmailKey, object.optString("email"));
+
+                                if(object.has("picture")) {
+                                    try {
+                                        Log.d("fbTest", object.toString());
+                                        String profilePicUrl = object.getJSONObject("picture")
+                                                .getJSONObject("data")
+                                                .getString("url");
+                                        editor.putString(trainerProfileImgKey, profilePicUrl);
+                                    }
+                                    catch(Exception e) {
+                                        e.printStackTrace();
+                                    }
+                                }
+
+                                editor.commit();
+                            }
+
+                        }
+                    }
+            );
+
+            Bundle parameters = new Bundle();
+            parameters.putString("fields", "id,name,email,picture.type(large)");
+            request.setParameters(parameters);
+            request.executeAsync();
+        }
+    }
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -50,6 +134,10 @@ public class MainActivity extends CustomizedActivity implements View.OnClickList
         handler = new Handler(this.getMainLooper());
 
         activityName = this.getClass().getSimpleName();
+
+        loginButton = (LoginButton)findViewById(R.id.login_button);
+        setupFBLogin();
+        sendGraphReq();
 
         //find UIs by their ids
         infoText = (TextView)findViewById(R.id.infoText);
