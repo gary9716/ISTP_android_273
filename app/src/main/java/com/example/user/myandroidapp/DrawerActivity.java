@@ -49,7 +49,7 @@ public class DrawerActivity extends AppCompatActivity implements Drawer.OnDrawer
         fragments = new Fragment[3];
         fragments[0] = PokemonListFragment.newInstance();
         fragments[1] = TestFragment.newInstance("fake 2");
-        fragments[2] = TestFragment.newInstance("fake 3");
+        fragments[2] = PokemonMapFragment.newInstance();
 
         SharedPreferences preferences = getSharedPreferences(Application.class.getSimpleName(), MODE_PRIVATE);
 

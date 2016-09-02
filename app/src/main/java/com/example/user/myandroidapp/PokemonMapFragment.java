@@ -9,15 +9,19 @@ import android.view.ViewGroup;
 
 import com.google.android.gms.common.api.GoogleApiClient;
 import com.google.android.gms.location.LocationRequest;
+import com.google.android.gms.maps.CameraUpdate;
+import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.OnMapReadyCallback;
 import com.google.android.gms.maps.SupportMapFragment;
 import com.google.android.gms.maps.UiSettings;
+import com.google.android.gms.maps.model.LatLng;
+import com.google.android.gms.maps.model.MarkerOptions;
 
 /**
  * Created by user on 2016/9/2.
  */
-public class PokemonMapFragment extends Fragment {
+public class PokemonMapFragment extends Fragment implements GeoCodingTask.GeoCodingResponse{
 
     SupportMapFragment mapFragment;
     GoogleMap map;
@@ -56,6 +60,7 @@ public class PokemonMapFragment extends Fragment {
                     UiSettings mapUISettings = googleMap.getUiSettings();
                     mapUISettings.setZoomControlsEnabled(true);
 
+                    (new GeoCodingTask(PokemonMapFragment.this)).execute("台北市羅斯福路四段一號");
 
                 }
             });
@@ -74,5 +79,18 @@ public class PokemonMapFragment extends Fragment {
         getChildFragmentManager().beginTransaction()
                 .replace(R.id.childFragmentContainer, mapFragment)
                 .commit();
+    }
+
+    @Override
+    public void callbackWithGeoCodingResult(LatLng latLng) {
+        CameraUpdate cameraUpdate = CameraUpdateFactory.newLatLngZoom(latLng, 17);
+        MarkerOptions markerOptions = new MarkerOptions()
+                .position(latLng)
+                .title("NTU")
+                .snippet("National Taiwan University");
+
+        map.moveCamera(cameraUpdate);
+        map.addMarker(markerOptions);
+
     }
 }
