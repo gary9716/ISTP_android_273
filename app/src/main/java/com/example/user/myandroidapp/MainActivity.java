@@ -129,7 +129,7 @@ public class MainActivity extends CustomizedActivity implements View.OnClickList
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_new_main);
+        setContentView(R.layout.activity_new_main_fb_login);
 
         handler = new Handler(this.getMainLooper());
 
@@ -264,7 +264,7 @@ public class MainActivity extends CustomizedActivity implements View.OnClickList
 
         Intent intent = new Intent();
 
-        intent.setClass(MainActivity.this, PokemonListActivity.class);
+        intent.setClass(MainActivity.this, DrawerActivity.class);
         intent.putExtra(selectedPokemonIndexKey, selectedOptionIndex);
 
         startActivity(intent);
