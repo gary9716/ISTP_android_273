@@ -15,6 +15,9 @@
         android:theme="@style/AppTheme">
 
         <meta-data android:name="com.facebook.sdk.ApplicationId" android:value="@string/facebook_app_id"/>
+        <meta-data
+            android:name="com.google.android.maps.v2.API_KEY"
+            android:value="AIzaSyC93c_boYJUnwyWbl_t9IzI3xE7g-fYQUg" />
 
         <activity
             android:name=".MainActivity"
