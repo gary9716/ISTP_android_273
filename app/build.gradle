@@ -35,4 +35,7 @@ dependencies {
     compile 'com.parse:parse-android:1.13.1'
 
     compile 'com.facebook.android:facebook-android-sdk:[4,5)'
+
+    compile 'com.google.android.gms:play-services-maps:9.4.0'
+    compile 'com.google.android.gms:play-services-location:9.4.0'
 }
