@@ -1,5 +1,8 @@
 package com.example.user.myandroidapp;
 
+import android.app.Application;
+import android.content.SharedPreferences;
+import android.graphics.Bitmap;
 import android.graphics.drawable.Drawable;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
@@ -17,6 +20,9 @@ import com.mikepenz.materialdrawer.DrawerBuilder;
 import com.mikepenz.materialdrawer.model.ProfileDrawerItem;
 import com.mikepenz.materialdrawer.model.interfaces.IDrawerItem;
 import com.mikepenz.materialdrawer.model.interfaces.IProfile;
+import com.nostra13.universalimageloader.core.ImageLoader;
+import com.nostra13.universalimageloader.core.assist.FailReason;
+import com.nostra13.universalimageloader.core.listener.ImageLoadingListener;
 
 public class DrawerActivity extends AppCompatActivity implements Drawer.OnDrawerItemClickListener, FragmentManager.OnBackStackChangedListener {
 
@@ -45,15 +51,58 @@ public class DrawerActivity extends AppCompatActivity implements Drawer.OnDrawer
         fragments[1] = TestFragment.newInstance("fake 2");
         fragments[2] = TestFragment.newInstance("fake 3");
 
-        String profileName = "batman";
-        String profileEmail = "batman@gmail.com";
+        SharedPreferences preferences = getSharedPreferences(Application.class.getSimpleName(), MODE_PRIVATE);
 
-        Drawable profileIcon = null;
-        profileIcon = Utils.getDrawable(this, R.drawable.profile3);
-        profile = new ProfileDrawerItem()
-                .withName(profileName)
-                .withEmail(profileEmail)
-                .withIcon(profileIcon);
+        String profileName = preferences.getString(
+                MainActivity.trainerNameKey,
+                "batman");
+
+        String profileEmail = preferences.getString(
+                MainActivity.trainerEmailKey,
+                "batman@gmail.com");
+
+        String profileImgUrl = preferences.getString(
+                MainActivity.trainerProfileImgKey,
+                null);
+
+        if(profileImgUrl == null) {
+            Drawable profileIcon = null;
+            profileIcon = Utils.getDrawable(this, R.drawable.profile3);
+            profile = new ProfileDrawerItem()
+                    .withName(profileName)
+                    .withEmail(profileEmail)
+                    .withIcon(profileIcon);
+        }
+        else {
+            profile = new ProfileDrawerItem()
+                    .withName(profileName)
+                    .withEmail(profileEmail);
+
+            ImageLoader.getInstance().loadImage(profileImgUrl,
+                    new ImageLoadingListener() {
+                @Override
+                public void onLoadingStarted(String imageUri, View view) {
+
+                }
+
+                @Override
+                public void onLoadingFailed(String imageUri, View view, FailReason failReason) {
+
+                }
+
+                @Override
+                public void onLoadingComplete(String imageUri, View view, Bitmap loadedImage) {
+                    profile.withIcon(loadedImage);
+                    headerResult.clear();
+                    headerResult.addProfile(profile, 0);
+                }
+
+                @Override
+                public void onLoadingCancelled(String imageUri, View view) {
+
+                }
+            });
+        }
 
         buildDrawerHeader(false, savedInstanceState);
 
